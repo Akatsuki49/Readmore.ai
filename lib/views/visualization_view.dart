@@ -23,22 +23,26 @@ class _VisualizationViewState extends State<VisualizationView> {
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-    _playAudio();
+    _loadAudio(); // Load audio on initialization
   }
 
-  Future<void> _playAudio() async {
+  Future<void> _loadAudio() async {
     await _audioPlayer.setUrl(widget.visualizationData.audio);
-    await _audioPlayer.play();
-    setState(() {
-      _isPlaying = true;
+    _audioPlayer.playerStateStream.listen((playerState) {
+      if (playerState.playing != _isPlaying) {
+        setState(() {
+          _isPlaying = playerState.playing;
+        });
+      }
     });
   }
 
-  Future<void> _stopAudio() async {
-    await _audioPlayer.stop();
-    setState(() {
-      _isPlaying = false;
-    });
+  Future<void> _toggleAudio() async {
+    if (_isPlaying) {
+      await _audioPlayer.stop();
+    } else {
+      await _audioPlayer.play();
+    }
   }
 
   @override
@@ -72,7 +76,7 @@ class _VisualizationViewState extends State<VisualizationView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: _isPlaying ? _stopAudio : _playAudio,
+                      onPressed: _toggleAudio,
                       icon: Icon(_isPlaying ? Icons.stop : Icons.play_arrow),
                       label: Text(_isPlaying ? 'Stop' : 'Play Audio'),
                     ),
