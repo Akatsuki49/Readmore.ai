@@ -19,7 +19,7 @@ class _BookListState extends State<BookList> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookReader(book: book),
+        builder: (context) => BookReader(),
       ),
     );
   }

@@ -1,216 +1,142 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:hashcode/models/book.dart';
-import 'package:hashcode/models/dummy_data.dart';
-import 'package:hashcode/models/visualization_data.dart';
-import 'package:hashcode/services/api_service.dart';
-import 'package:hashcode/views/visualization_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookReader extends StatefulWidget {
-  final Book book;
-
-  BookReader({required this.book});
+  const BookReader({Key? key});
 
   @override
-  _BookReaderState createState() => _BookReaderState();
+  State<BookReader> createState() => _BookReaderState();
 }
 
 class _BookReaderState extends State<BookReader> {
-  bool isLoading = false;
+  late Future<DocumentSnapshot<Map<String, dynamic>>> _bookFuture;
+  final String bookId = "3b2snu24t3nGHFvDAVOD";
 
-  void _visualizeParagraph(String paragraph) async {
-    setState(() {
-      isLoading = true;
-    });
+  var image = null;
 
-    try {
-      // Simulate API call using dummy data
-      final response = DummyData.visualizationData;
-      setState(() {
-        isLoading = false;
-      });
-      showVisualizationPopup(response, paragraph);
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      showErrorDialog('Error generating visualization');
-    }
+  @override
+  void initState() {
+    super.initState();
+    _bookFuture = _fetchBookData(bookId);
   }
 
-  void showVisualizationPopup(
-      VisualizationData visualizationData, String paragraph) {
-    showDialog(
-      context: context,
-      builder: (context) => VisualizationView(
-        visualizationData: visualizationData,
-        paragraph: paragraph,
-      ),
-    );
+  Future<DocumentSnapshot<Map<String, dynamic>>> _fetchBookData(
+      String bookId) async {
+    return await FirebaseFirestore.instance
+        .collection('books')
+        .doc(bookId)
+        .get();
   }
 
-  void showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xff14161B),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Color(0xff414141),
+                ),
+                child: image == null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Image.asset("assets/images/logo.png"),
+                      )
+                    : image,
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Chip(
+                  backgroundColor: Color(0xff141314),
+                  label: Text(
+                    "audio",
+                    style: TextStyle(color: Color(0xff83899F)),
+                  ),
+                  avatar: InkWell(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.pause_circle_outline_rounded,
+                      color: Color(0xff43F45F),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              future: _bookFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  final title = snapshot.data!.get('title');
+                  final content =
+                      snapshot.data!.get('content') as List<dynamic>;
+
+                  return SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          ...content
+                              .map((para) => parawidget(para.toString()))
+                              .toList(),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Book Reader'),
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(fontSize: 16.0),
-                  children: _parseBookContent(widget.book.content),
-                ),
-              ),
+  Widget parawidget(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          _getimage_background_from_text();
+        },
+        child: Container(
+          width: 300,
+          // color: Colors.amber,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white),
             ),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xff414141).withOpacity(0),
+          ),
+        ),
+      ),
     );
   }
 
-  List<InlineSpan> _parseBookContent(String bookContent) {
-    final paragraphs = bookContent.split('\n\n');
-    return paragraphs.map((paragraph) {
-      final spans = _parseText(paragraph);
-      return TextSpan(
-        style: TextStyle(height: 1.5, color: Colors.black),
-        children: spans,
-      );
-    }).toList();
-  }
-
-  List<InlineSpan> _parseText(String text) {
-    final words = text.split(' ');
-    return words.map((word) {
-      return TextSpan(
-        text: '$word ',
-        recognizer: TapGestureRecognizer()
-          ..onTap = () {
-            _visualizeParagraph(text);
-          },
-      );
-    }).toList();
-  }
+  void _getimage_background_from_text() {}
 }
-
-
-// class BookReader extends StatefulWidget {
-//   final Book book;
-
-//   BookReader({required this.book});
-
-//   @override
-//   _BookReaderState createState() => _BookReaderState();
-// }
-
-// class _BookReaderState extends State<BookReader> {
-//   bool isLoading = false;
-
-//   void _visualizeParagraph(String paragraph) async {
-//     setState(() {
-//       isLoading = true;
-//     });
-
-//     try {
-//       final response = await ApiService.visualizeParagraph(paragraph);
-//       setState(() {
-//         isLoading = false;
-//       });
-//       showVisualizationPopup(response, paragraph);
-//     } catch (e) {
-//       setState(() {
-//         isLoading = false;
-//       });
-//       showErrorDialog('Error generating visualization');
-//     }
-//   }
-
-//   void showVisualizationPopup(
-//       VisualizationData visualizationData, String paragraph) {
-//     showDialog(
-//       context: context,
-//       builder: (context) => VisualizationView(
-//         visualizationData: visualizationData,
-//         paragraph: paragraph,
-//       ),
-//     );
-//   }
-
-//   void showErrorDialog(String message) {
-//     showDialog(
-//       context: context,
-//       builder: (context) => AlertDialog(
-//         title: Text('Error'),
-//         content: Text(message),
-//         actions: [
-//           TextButton(
-//             onPressed: () => Navigator.of(context).pop(),
-//             child: Text('OK'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Book Reader'),
-//       ),
-//       body: isLoading
-//           ? Center(child: CircularProgressIndicator())
-//           : Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: RichText(
-//                 text: TextSpan(
-//                   style: TextStyle(fontSize: 16.0),
-//                   children: _parseBookContent(widget.book.content),
-//                 ),
-//               ),
-//             ),
-//     );
-//   }
-
-//   List<InlineSpan> _parseBookContent(String bookContent) {
-//     final paragraphs = bookContent.split('\n\n');
-//     return paragraphs.map((paragraph) {
-//       final spans = _parseText(paragraph);
-//       return TextSpan(
-//         style: TextStyle(height: 1.5),
-//         children: spans,
-//       );
-//     }).toList();
-//   }
-
-//   List<InlineSpan> _parseText(String text) {
-//     final words = text.split(' ');
-//     return words.map((word) {
-//       return TextSpan(
-//         text: '$word ',
-//         recognizer: TapGestureRecognizer()
-//           ..onTap = () {
-//             // _visualizeParagraph('This is a dummy paragraph for visualization.');
-//             _visualizeParagraph(text);
-//           },
-//       );
-//     }).toList();
-//   }
-// }
