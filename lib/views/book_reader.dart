@@ -12,6 +12,8 @@ class _BookReaderState extends State<BookReader> {
   late Future<DocumentSnapshot<Map<String, dynamic>>> _bookFuture;
   final String bookId = "3b2snu24t3nGHFvDAVOD";
 
+  var image = null;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +41,12 @@ class _BookReaderState extends State<BookReader> {
                 decoration: BoxDecoration(
                   color: Color(0xff414141),
                 ),
+                child: image == null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Image.asset("assets/images/logo.png"),
+                      )
+                    : image,
               ),
               Positioned(
                 top: 8,
@@ -74,12 +82,24 @@ class _BookReaderState extends State<BookReader> {
                       snapshot.data!.get('content') as List<dynamic>;
 
                   return SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
-                        children: content
-                            .map((para) => parawidget(para.toString()))
-                            .toList(),
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          ...content
+                              .map((para) => parawidget(para.toString()))
+                              .toList(),
+                        ],
                       ),
                     ),
                   );
@@ -95,14 +115,28 @@ class _BookReaderState extends State<BookReader> {
   Widget parawidget(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 300,
-        color: Colors.amber,
-        child: Text(
-          text,
-          style: TextStyle(color: Colors.white),
+      child: GestureDetector(
+        onTap: () {
+          _getimage_background_from_text();
+        },
+        child: Container(
+          width: 300,
+          // color: Colors.amber,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xff414141).withOpacity(0),
+          ),
         ),
       ),
     );
   }
+
+  void _getimage_background_from_text() {}
 }
