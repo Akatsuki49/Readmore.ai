@@ -67,6 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '785747414125',
     projectId: 'hashcode2024-7b5b5',
     storageBucket: 'hashcode2024-7b5b5.appspot.com',
+    androidClientId: '785747414125-btrg65u9j5haf9csf2ka3stt4vnartiv.apps.googleusercontent.com',
+    iosClientId: '785747414125-o4q3golm6149nlfv5dbedf6bhkhvhrgg.apps.googleusercontent.com',
     iosBundleId: 'com.example.hashcode',
   );
 
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '785747414125',
     projectId: 'hashcode2024-7b5b5',
     storageBucket: 'hashcode2024-7b5b5.appspot.com',
+    androidClientId: '785747414125-btrg65u9j5haf9csf2ka3stt4vnartiv.apps.googleusercontent.com',
+    iosClientId: '785747414125-b4sthihq741238nd96dnkujth9g1hg0k.apps.googleusercontent.com',
     iosBundleId: 'com.example.hashcode.RunnerTests',
   );
 }
