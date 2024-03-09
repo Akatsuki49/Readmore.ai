@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData && snapshot.data != null) {
               return BookList(); // If user is logged in, show home screen
             } else {
-              return WhoReading(); // If user is not logged in, show login screen
+              return GetStarted(); // If user is not logged in, show login screen
             }
           },
         ),
