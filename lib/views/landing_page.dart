@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hashcode/auth/login_screen.dart';
 import 'package:hashcode/auth/signup_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hashcode/views/select_lang.dart';
 
 class GetStarted extends StatelessWidget {
   const GetStarted({super.key});
@@ -44,11 +45,14 @@ class GetStarted extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
-                      },
-                    ));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          // return const LoginScreen();
+                          return const SelectLang();
+                        },
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
