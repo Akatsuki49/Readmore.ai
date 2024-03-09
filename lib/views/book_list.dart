@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hashcode/auth/login_screen.dart';
 import 'package:hashcode/models/book.dart';
 import 'package:hashcode/models/dummy_data.dart';
 import 'package:hashcode/views/book_reader.dart';
@@ -25,6 +27,22 @@ class _BookListState extends State<BookList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Book List'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Logout logic
+              FirebaseAuth.instance.signOut();
+              // Navigate back to the login screen
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                (route) => false,
+              );
+            },
+            icon: Icon(Icons.logout),
+            color: Colors.white,
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: books.length,
