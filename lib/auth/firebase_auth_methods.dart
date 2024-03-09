@@ -5,12 +5,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hashcode/auth/login_email_screen.dart';
 import 'package:hashcode/auth/signup_screen.dart';
-import 'package:hashcode/views/book_list.dart';
 import 'package:hashcode/views/landing_page.dart';
 import 'package:hashcode/views/who_reading.dart';
 import 'package:hashcode/widgets/snack_bar.dart';
 
-import 'login_screen.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
@@ -36,7 +34,7 @@ class FirebaseAuthMethods {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) {
-            return EmailPasswordLogin();
+            return const EmailPasswordLogin();
           },
         ),
         (route) => false,
@@ -61,7 +59,7 @@ class FirebaseAuthMethods {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) {
-            return EmailPasswordSignup();
+            return const EmailPasswordSignup();
           },
         ),
         (route) => false,
@@ -91,7 +89,7 @@ class FirebaseAuthMethods {
         MaterialPageRoute(
           builder: (context) {
             // return BookList();
-            return WhoReading();
+            return const WhoReading();
           },
         ),
         (route) => false,
