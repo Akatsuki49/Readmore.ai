@@ -4,6 +4,8 @@ import 'package:hashcode/auth/login_screen.dart';
 import 'package:hashcode/models/book.dart';
 import 'package:hashcode/models/dummy_data.dart';
 import 'package:hashcode/views/book_reader.dart';
+import 'package:hashcode/views/landing_page.dart';
+import 'package:hashcode/views/select_lang.dart';
 
 class BookList extends StatefulWidget {
   @override
@@ -35,7 +37,7 @@ class _BookListState extends State<BookList> {
               // Navigate back to the login screen
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => GetStarted()),
                 (route) => false,
               );
             },
@@ -44,6 +46,7 @@ class _BookListState extends State<BookList> {
           )
         ],
       ),
+      // body: SelectLang(),
       body: ListView.builder(
         itemCount: books.length,
         itemBuilder: (context, index) {

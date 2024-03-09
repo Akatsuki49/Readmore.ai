@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hashcode/auth/login_email_screen.dart';
 import 'package:hashcode/auth/signup_screen.dart';
 import 'package:hashcode/views/book_list.dart';
+import 'package:hashcode/views/landing_page.dart';
+import 'package:hashcode/views/who_reading.dart';
 import 'package:hashcode/widgets/snack_bar.dart';
 
 import 'login_screen.dart';
@@ -88,7 +90,8 @@ class FirebaseAuthMethods {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) {
-            return BookList();
+            // return BookList();
+            return WhoReading();
           },
         ),
         (route) => false,
@@ -106,7 +109,7 @@ class FirebaseAuthMethods {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) {
-            return const LoginScreen();
+            return const GetStarted();
           },
         ),
         (route) => false,

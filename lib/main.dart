@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
               return CircularProgressIndicator();
             }
             if (snapshot.hasData && snapshot.data != null) {
-              return BookList(); // If user is logged in, show home screen
+              return WhoReading(); // If user is logged in, show home screen
             } else {
               return GetStarted(); // If user is not logged in, show login screen
             }
