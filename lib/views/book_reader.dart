@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookReader extends StatefulWidget {
-  const BookReader({Key? key});
+  final String bookId;
+  const BookReader({Key? key, required this.bookId}) : super(key: key);
 
   @override
   State<BookReader> createState() => _BookReaderState();
@@ -10,14 +11,15 @@ class BookReader extends StatefulWidget {
 
 class _BookReaderState extends State<BookReader> {
   late Future<DocumentSnapshot<Map<String, dynamic>>> _bookFuture;
-  final String bookId = "3b2snu24t3nGHFvDAVOD";
+
+  var image = null;
 
   var image = null;
 
   @override
   void initState() {
     super.initState();
-    _bookFuture = _fetchBookData(bookId);
+    _bookFuture = _fetchBookData(widget.bookId);
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> _fetchBookData(

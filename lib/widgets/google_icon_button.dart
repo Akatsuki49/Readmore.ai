@@ -6,11 +6,11 @@ class GoogleIconButton extends StatefulWidget {
   final VoidCallback onPress;
 
   const GoogleIconButton({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.imagePath,
     required this.onPress,
-  }) : super(key: key);
+  });
 
   @override
   State<GoogleIconButton> createState() => _GoogleIconButtonState();
@@ -35,7 +35,7 @@ class _GoogleIconButtonState extends State<GoogleIconButton> {
           backgroundColor: MaterialStateProperty.all(Colors.grey.shade200),
           shadowColor: MaterialStateProperty.all(Colors.transparent),
           side: MaterialStateProperty.all(
-            BorderSide(color: Colors.black),
+            const BorderSide(color: Colors.black),
           ),
         ),
         onPressed: widget.onPress,

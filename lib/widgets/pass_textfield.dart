@@ -6,11 +6,11 @@ class PasswordTextField extends StatefulWidget {
   final TextInputType textInputType;
 
   const PasswordTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.textInputType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();

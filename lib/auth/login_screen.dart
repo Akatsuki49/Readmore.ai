@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'login_email_screen.dart';
 import 'firebase_auth_methods.dart';
 import '/widgets/auth_icon_button.dart';
-import './firebase_auth_methods.dart';
 import 'package:flutter/gestures.dart';
 import 'signup_screen.dart';
 
@@ -77,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ..onTap = () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
-                            return EmailPasswordSignup();
+                            return const EmailPasswordSignup();
                           },
                         ));
                       },
