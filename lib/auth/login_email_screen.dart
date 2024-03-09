@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'firebase_auth_methods.dart';
 import '/widgets/auth_textfield.dart';
 
 class EmailPasswordLogin extends StatefulWidget {
-  const EmailPasswordLogin({Key? key}) : super(key: key);
+  const EmailPasswordLogin({super.key});
 
   @override
   _EmailPasswordLoginState createState() => _EmailPasswordLoginState();

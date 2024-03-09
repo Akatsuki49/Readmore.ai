@@ -6,11 +6,11 @@ class AuthTextField extends StatelessWidget {
   final TextInputType textInputType;
 
   const AuthTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.textInputType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

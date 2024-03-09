@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +12,7 @@ class WhoReading extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xff111011),
+      backgroundColor: const Color(0xff111011),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -30,7 +28,7 @@ class WhoReading extends StatelessWidget {
             Text(
               "who's reading?",
               style: GoogleFonts.robotoFlex(
-                color: Color(0xffCDCDCD),
+                color: const Color(0xffCDCDCD),
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.05,
@@ -42,7 +40,7 @@ class WhoReading extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return BookList();
+                    return const BookList();
                   },
                 ));
               },

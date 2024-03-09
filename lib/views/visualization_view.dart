@@ -6,7 +6,7 @@ class VisualizationView extends StatefulWidget {
   final VisualizationData visualizationData;
   final String paragraph;
 
-  VisualizationView({
+  const VisualizationView({super.key, 
     required this.visualizationData,
     required this.paragraph,
   });
@@ -69,9 +69,9 @@ class _VisualizationViewState extends State<VisualizationView> {
               children: [
                 Text(
                   widget.paragraph,
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -80,10 +80,10 @@ class _VisualizationViewState extends State<VisualizationView> {
                       icon: Icon(_isPlaying ? Icons.stop : Icons.play_arrow),
                       label: Text(_isPlaying ? 'Stop' : 'Play Audio'),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text('Close'),
+                      child: const Text('Close'),
                     ),
                   ],
                 ),

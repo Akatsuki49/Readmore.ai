@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hashcode/auth/login_screen.dart';
-import 'package:hashcode/auth/signup_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hashcode/views/select_lang.dart';
 
@@ -14,7 +12,7 @@ class GetStarted extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xff111011),
+      backgroundColor: const Color(0xff111011),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -30,7 +28,7 @@ class GetStarted extends StatelessWidget {
             Text(
               'because reading is a birthright.',
               style: GoogleFonts.robotoFlex(
-                color: Color(0xffCDCDCD),
+                color: const Color(0xffCDCDCD),
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
               ),
@@ -56,7 +54,7 @@ class GetStarted extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Color(0xff262626)), // Set the background color
+                        const Color(0xff262626)), // Set the background color
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -74,7 +72,7 @@ class GetStarted extends StatelessWidget {
                     child: Text(
                       'Get Started',
                       style: GoogleFonts.inter(
-                        color: Color(0xffCDCDCD),
+                        color: const Color(0xffCDCDCD),
                         fontSize: 24,
                       ),
                     ),

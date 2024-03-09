@@ -1,24 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hashcode/auth/firebase_auth_methods.dart';
-import 'package:hashcode/auth/login_screen.dart';
 import 'package:hashcode/firebase_options.dart';
-import 'package:hashcode/views/book_list.dart';
 import 'package:hashcode/views/landing_page.dart';
 import 'package:hashcode/views/who_reading.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
-import 'package:hashcode/views/book_list.dart'; // Import the home screen
+// Import the home screen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -38,12 +38,12 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (snapshot.hasData && snapshot.data != null) {
-              return WhoReading(); // If user is logged in, show home screen
+              return const WhoReading(); // If user is logged in, show home screen
             } else {
-              return GetStarted(); // If user is not logged in, show login screen
+              return const GetStarted(); // If user is not logged in, show login screen
             }
           },
         ),

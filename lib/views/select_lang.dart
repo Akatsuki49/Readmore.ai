@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hashcode/auth/login_screen.dart';
 
@@ -9,7 +8,7 @@ class SelectLang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff111011),
+      backgroundColor: const Color(0xff111011),
       body: Stack(
         children: [
           Positioned(
@@ -35,18 +34,18 @@ class SelectLang extends StatelessWidget {
                 Text(
                   'Select preferred',
                   style: GoogleFonts.robotoFlex(
-                      color: Color(0xffCDCDCD),
+                      color: const Color(0xffCDCDCD),
                       fontSize: 35,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'language(s):',
                   style: GoogleFonts.robotoFlex(
-                      color: Color(0xffCDCDCD),
+                      color: const Color(0xffCDCDCD),
                       fontSize: 35,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Column(
@@ -54,16 +53,16 @@ class SelectLang extends StatelessWidget {
                     langbutton(context,
                         language: "English",
                         flag: "assets/images/united-states-of-america.png"),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     langbutton(context,
                         language: "Spanish",
                         flag: "assets/images/spain_square_icon_256.png"),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     langbutton(context,
                         language: "French",
                         flag:
                             "assets/images/Wikipedia-Flags-FR-France-Flag.512.png"),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     langbutton(context,
                         language: "Russian",
                         flag: "assets/images/russia-flag-icon.png"),
@@ -91,6 +90,10 @@ class SelectLang extends StatelessWidget {
       child: Container(
         height: 70,
         width: 364,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: const Color(0xff1B191B).withOpacity(0.8),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -98,20 +101,16 @@ class SelectLang extends StatelessWidget {
               Image.asset(
                 flag,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
                 language,
                 style:
-                    GoogleFonts.inter(color: Color(0xffCDCDCD), fontSize: 17),
+                    GoogleFonts.inter(color: const Color(0xffCDCDCD), fontSize: 17),
               ),
             ],
           ),
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Color(0xff1B191B).withOpacity(0.8),
         ),
       ),
     );
