@@ -5,6 +5,7 @@ import 'package:hashcode/auth/login_screen.dart';
 import 'package:hashcode/firebase_options.dart';
 import 'package:hashcode/views/book_list.dart';
 import 'package:hashcode/views/landing_page.dart';
+import 'package:hashcode/views/who_reading.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 import 'package:hashcode/views/book_list.dart'; // Import the home screen
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData && snapshot.data != null) {
               return BookList(); // If user is logged in, show home screen
             } else {
-              return LoginScreen(); // If user is not logged in, show login screen
+              return WhoReading(); // If user is not logged in, show login screen
             }
           },
         ),
