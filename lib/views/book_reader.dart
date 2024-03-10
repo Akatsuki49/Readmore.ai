@@ -1,5 +1,9 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
+import 'package:just_audio/just_audio.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookReader extends StatefulWidget {
   final String bookId;
@@ -28,6 +32,41 @@ class _BookReaderState extends State<BookReader> {
         .get();
   }
 
+  Future<void> _fetchImageAndAudio(String paragraph) async {
+    setState(() {
+      image = null;
+      _isAudioPlaying = false;
+      _audioPlayer.stop();
+    });
+
+    try {
+      // TODO: Make a request to your backend with the paragraph text
+      // Dummy URLs for demonstration purposes
+      const imageUrl = 'https://picsum.photos/200/300';
+      const audioUrl = 'https://example.com/audio.mp3';
+
+      final imageData = await fetchImageData(imageUrl);
+      final audioData = await fetchAudioData(audioUrl);
+
+      setState(() {
+        image = Image.memory(imageData, fit: BoxFit.cover);
+        _audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(audioUrl)));
+      });
+    } catch (e) {
+      print('Error fetching image and audio: $e');
+    }
+  }
+
+  Future<Uint8List> fetchImageData(String url) async {
+    final response = await http.get(Uri.parse(url));
+    return response.bodyBytes;
+  }
+
+  Future<Uint8List> fetchAudioData(String url) async {
+    final response = await http.get(Uri.parse(url));
+    return response.bodyBytes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,9 +81,12 @@ class _BookReaderState extends State<BookReader> {
                   color: Color(0xff414141),
                 ),
                 child: image == null
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Image.asset("assets/images/logo.png"),
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Color(0xff43F45F),
+                          ),
+                        ),
                       )
                     : image,
               ),
@@ -84,23 +126,89 @@ class _BookReaderState extends State<BookReader> {
                   return SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             title,
-                            style: TextStyle(
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.notoSansGeorgian(
                               color: Colors.white,
-                              fontSize: 24,
+                              fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 20),
-                          ...content
-                              .map((para) => parawidget(para.toString()))
-                              .toList(),
+                          ...content.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final para = entry.value.toString();
+                            return parawidget(para, index);
+                          }).toList(),
                         ],
                       ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: StreamBuilder<PlayerState>(
+              stream: _audioPlayer.playerStateStream,
+              builder: (context, snapshot) {
+                final playerState = snapshot.data;
+                final processingState = playerState?.processingState;
+                final playing = playerState?.playing;
+                if (processingState == ProcessingState.loading ||
+                    processingState == ProcessingState.buffering) {
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    width: 32.0,
+                    height: 32.0,
+                    child: const CircularProgressIndicator(),
+                  );
+                } else if (playing != true) {
+                  return IconButton(
+                    onPressed: () {
+                      _audioPlayer.play();
+                      setState(() {
+                        _isAudioPlaying = true;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.play_circle_outline,
+                      color: Color(0xff43F45F),
+                      size: 42,
+                    ),
+                  );
+                } else if (processingState != ProcessingState.completed) {
+                  return IconButton(
+                    onPressed: () {
+                      _audioPlayer.pause();
+                      setState(() {
+                        _isAudioPlaying = false;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.pause_circle_outline_rounded,
+                      color: Color(0xff43F45F),
+                      size: 42,
+                    ),
+                  );
+                } else {
+                  return IconButton(
+                    onPressed: () {
+                      _audioPlayer.play();
+                      setState(() {
+                        _isAudioPlaying = true;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.replay_circle_filled,
+                      color: Color(0xff43F45F),
+                      size: 42,
                     ),
                   );
                 }
@@ -112,31 +220,41 @@ class _BookReaderState extends State<BookReader> {
     );
   }
 
-  Widget parawidget(String text) {
+  Widget parawidget(String text, int index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
+      child: InkWell(
+        splashColor: Colors.transparent,
         onTap: () {
-          _getimage_background_from_text();
+          if (index != _currentParagraphIndex) {
+            _currentParagraphIndex = index;
+            _fetchImageAndAudio(text);
+          }
         },
         child: Container(
-          width: 300,
-          // color: Colors.amber,
+          width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
               text,
-              style: TextStyle(color: Colors.white),
+              style: GoogleFonts.notoSansGeorgian(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color(0xff414141).withOpacity(0),
+            color: Color(0xff414141).withOpacity(0.2),
           ),
         ),
       ),
     );
   }
 
-  void _getimage_background_from_text() {}
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 }
