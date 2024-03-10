@@ -14,8 +14,6 @@ class _BookReaderState extends State<BookReader> {
 
   var image = null;
 
-  var image = null;
-
   @override
   void initState() {
     super.initState();
@@ -51,7 +49,7 @@ class _BookReaderState extends State<BookReader> {
                     : image,
               ),
               Positioned(
-                top: 8,
+                top: 25,
                 right: 8,
                 child: Chip(
                   backgroundColor: Color(0xff141314),
