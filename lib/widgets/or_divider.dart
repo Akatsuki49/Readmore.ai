@@ -11,7 +11,8 @@ class OrDivider extends StatelessWidget {
         children: [
           Expanded(
             child: Divider(
-              color: Colors.black,
+              color: Colors.white,
+              thickness: 2,
             ),
           ),
           Padding(
@@ -19,7 +20,7 @@ class OrDivider extends StatelessWidget {
             child: Text(
               'OR',
               style: TextStyle(
-                color: Color(0xff9EAFB0),
+                color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -27,7 +28,8 @@ class OrDivider extends StatelessWidget {
           ),
           Expanded(
             child: Divider(
-              color: Colors.black,
+              color: Colors.white,
+              thickness: 2,
             ),
           ),
         ],
