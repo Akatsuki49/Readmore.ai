@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class BookList extends StatefulWidget {
 }
 
 class _BookListState extends State<BookList> {
+  late Future<DocumentSnapshot<Map<String, dynamic>>> _bookFuture =
+      Future.value();
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
