@@ -12,7 +12,7 @@
 
 ## Inspiration
 
-readmore.ai is inspired by the staggering number of individuals worldwide diagnosed with learning disabilities, accounting for approximately 15% of the global population. Additionally, it aims to cater to those with ADHD and short attention spans. The idea is to develop a solution that not only enhances the reading experience but also makes it more accessible and engaging for everyone.
+readmore.ai is inspired by the staggering number of individuals worldwide diagnosed with learning disabilities, accounting for approximately 15% of the global population. Additionally, it aims to cater to those with ADHD and short attention spans. It is also an incredibly useful tool for providing kids and toddlers with an interesting reading experience. The idea is to develop a solution that not only enhances the reading experience but also makes it more accessible and engaging for everyone.
 
 ## Introduction
 
