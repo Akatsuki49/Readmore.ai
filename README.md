@@ -57,9 +57,9 @@ The app's core functionality revolves around enhancing the reading experience wi
   
 - **AI Models:** GPT-3.5 - A state-of-the-art language model used for generating prompts for both image and audio models, enabling context-aware content generation.
   
-- **Image Generation:** "dreamlike light" - An AI model specialized in generating visually captivating imagery based on text prompts.
+- **Image Generation:** "dreamlike photoreal 2.0" - An AI model specialized in generating visually captivating imagery based on text prompts.
   
-- **Audio Generation:** "musicgen" - An AI model designed to produce immersive audio experiences tailored to text prompts.
+- **Audio Generation:** "musicgen-medium" - An AI model designed to produce immersive audio experiences tailored to text prompts.
 
   
 ## Working Demo
