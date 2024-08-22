@@ -64,7 +64,10 @@ The app's core functionality revolves around enhancing the reading experience wi
   
 ## Working Demo
 
-[![Demo 1](https://github.com/Akatsuki49/Readmore.ai/assets/110471762/d618517f-108e-477f-a269-b8edc774e0bc)](https://github.com/Akatsuki49/Readmore.ai/assets/110471762/d618517f-108e-477f-a269-b8edc774e0bc)
+
+https://github.com/user-attachments/assets/9455c21a-aaae-4fbe-a1b4-982504e4caa7
+
+
 
 [![Demo 2](https://github.com/Akatsuki49/Readmore.ai/assets/110471762/7ae78857-4608-48b9-b9ba-f397547e551c)](https://github.com/Akatsuki49/Readmore.ai/assets/110471762/7ae78857-4608-48b9-b9ba-f397547e551c)
 
